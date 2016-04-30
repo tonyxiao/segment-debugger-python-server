@@ -14,6 +14,7 @@ def identify():
         'name': 'John Smith',
         'friends': 30
     })
+    analytics.flush()
     
     return 'Done'
 
