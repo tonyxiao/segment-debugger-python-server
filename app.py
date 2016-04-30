@@ -1,4 +1,4 @@
-import analytics
+from analytics import Client
 import json
 import os
 from flask import Flask, request, abort
@@ -13,7 +13,7 @@ def identify():
     params = request.get_json(True)
     
     # Shouldn't have any concurrency issue since we are not multi-threading here
-    analytics.write_key = write_key
+    analytics = Client(write_key)
     analytics.identify(params['userId'], params['traits'])
     analytics.flush()
     
@@ -24,7 +24,7 @@ def track():
     write_key = request.args.get('writeKey')
     params = request.get_json(True)
     
-    analytics.write_key = write_key
+    analytics = Client(write_key)
     analytics.track(params['userId'], params['event'], params['properties'])
     analytics.flush()
     
@@ -35,7 +35,7 @@ def alias():
     write_key = request.args.get('writeKey')
     params = request.get_json(True)
     
-    analytics.write_key = write_key
+    analytics = Client(write_key)
     analytics.alias(params['previousId'], params['userId'])
     analytics.flush()
     
